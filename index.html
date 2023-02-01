@@ -21,7 +21,7 @@
     <link rel="alternative" href="/atom.xml" title="nekomiao" type="application/atom+xml">
   
   
-    <link rel="icon" href="/img/LOGO.webp">
+    <link rel="icon" href="/img/toux .png">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -45,7 +45,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/img/LOGO.webp" class="js-avatar">
+			<img src="/img/toux .png" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/"></a></h1>
@@ -56,8 +56,6 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
-	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -103,15 +101,13 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/img/LOGO.webp" class="js-avatar">
+				<img src="/img/toux .png" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author"></h1>
 			</hgroup>
 			
 			
-			
-				
 			
 				
 			
@@ -135,9 +131,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -153,6 +147,92 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-manager" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/01/manager/">Docker部署Nginx proxy manager</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/01/manager/" class="archive-article-date">
+  	<time datetime="2023-02-01T15:04:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Nginx-proxy-manager是一个很简单的反向代理工具。"><a href="#Nginx-proxy-manager是一个很简单的反向代理工具。" class="headerlink" title="Nginx proxy manager是一个很简单的反向代理工具。"></a>Nginx proxy manager是一个很简单的反向代理工具。</h2><p>官网：<a target="_blank" rel="noopener" href="https://nginxproxymanager.com/">https://nginxproxymanager.com</a></p>
+<p>门槛极低，操作简单，不需要你掌握很复杂的Nginx配置知识，只需要几步就能很轻松完成反向代理的设置和SSL证书的部署</p>
+<h2 id="开始部署"><a href="#开始部署" class="headerlink" title="开始部署"></a>开始部署</h2><ul>
+<li>服务器环境：Debian 10（Ubuntu 20.04也可以）或以上版本</li>
+</ul>
+<h2 id="升级-packages"><a href="#升级-packages" class="headerlink" title="升级 packages"></a>升级 packages</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">apt install wget curl sudo vim git -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Docker-环境"><a href="#安装-Docker-环境" class="headerlink" title="安装 Docker 环境"></a>安装 Docker 环境</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wget -qO- get.docker.com | bash</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">systemctl enable docker # 设置开机自动启动</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Docker-compose"><a href="#安装-Docker-compose" class="headerlink" title="安装 Docker-compose"></a>安装 Docker-compose</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Nginx-Proxy-Manager"><a href="#安装-Nginx-Proxy-Manager" class="headerlink" title="安装 Nginx Proxy Manager"></a>安装 Nginx Proxy Manager</h2><h2 id="创建安装目录"><a href="#创建安装目录" class="headerlink" title="创建安装目录"></a>创建安装目录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir -p /root/data/docker_data/npm</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">cd /root/data/docker_data/npm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这边我们直接用 docker 的方式安装。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">vim docker-compose.yml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>英文输入法下，按 i</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">version: &#x27;3&#x27;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">app:</span><br><span class="line"></span><br><span class="line">image: &#x27;jc21/nginx-proxy-manager:latest&#x27;</span><br><span class="line"></span><br><span class="line">restart: unless-stopped</span><br><span class="line"></span><br><span class="line">ports:</span><br><span class="line"></span><br><span class="line">- &#x27;80:80&#x27; # 冒号左边可以改成自己服务器未被占用的端口</span><br><span class="line"></span><br><span class="line">- &#x27;81:81&#x27; # 冒号左边可以改成自己服务器未被占用的端口</span><br><span class="line"></span><br><span class="line">- &#x27;443:443&#x27; # 冒号左边可以改成自己服务器未被占用的端口</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line"></span><br><span class="line">- ./data:/data # 冒号左边可以改路径，现在是表示把数据存放在在当前文件夹下的 data 文件夹中</span><br><span class="line"></span><br><span class="line">- ./letsencrypt:/etc/letsencrypt # 冒号左边可以改路径，现在是表示把数据存放在在当前文件夹下的 letsencrypt 文件夹中</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>按一下 esc，然后 :wq 保存退出，之后</p>
+<h2 id="运行并访问-Nginx-Proxy-Manager"><a href="#运行并访问-Nginx-Proxy-Manager" class="headerlink" title="运行并访问 Nginx Proxy Manager"></a>运行并访问 Nginx Proxy Manager</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cd /root/data/docker_data/npm # 来到 dockercompose 文件所在的文件夹下</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">docker-compose up -</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>理论上我们就可以输入 <a target="_blank" rel="noopener" href="http://ip:81/">http://ip:81</a> 访问了。</p>
+<p>默认登陆名和密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Email: admin@example.com</span><br><span class="line"></span><br><span class="line">Password: changeme</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/01/manager/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-测试文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -432,27 +512,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="http://freecfcdn.ml" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
             </li>
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+              <a href="http://sakuralili.tk" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
             </li>
           
         </ul>

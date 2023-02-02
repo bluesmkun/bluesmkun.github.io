@@ -77,13 +77,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="weibo" target="_blank" href="https://weibo.com/7758258mama" title="weibo"><i class="icon-weibo"></i></a>
 		        
 			</div>
 		</nav>
@@ -116,13 +110,7 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
-			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="weibo" target="_blank" href="https://weibo.com/7758258mama" title="weibo"><i class="icon-weibo"></i></a>
 			        
 				</div>
 			</nav>
@@ -147,6 +135,157 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-服务器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/02/%E6%9C%8D%E5%8A%A1%E5%99%A8/">如何在 Ubuntu 20.04 上搭建 Minecraft (我的世界) 服务器</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/02/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2023-02-02T06:08:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Minecraft-一直是最流行的游戏之一。它是一个沙盒视频游戏，用户可以体验无限的世界，并且可以构建不同的结构，从简单的房子到高耸的摩天大楼。"><a href="#Minecraft-一直是最流行的游戏之一。它是一个沙盒视频游戏，用户可以体验无限的世界，并且可以构建不同的结构，从简单的房子到高耸的摩天大楼。" class="headerlink" title="Minecraft 一直是最流行的游戏之一。它是一个沙盒视频游戏，用户可以体验无限的世界，并且可以构建不同的结构，从简单的房子到高耸的摩天大楼。"></a>Minecraft 一直是最流行的游戏之一。它是一个沙盒视频游戏，用户可以体验无限的世界，并且可以构建不同的结构，从简单的房子到高耸的摩天大楼。</h2><h2 id="一、搭建准备"><a href="#一、搭建准备" class="headerlink" title="一、搭建准备"></a>一、搭建准备</h2><p>一台服务器（4G RAM以上）并且安装Ubuntu 20 . 04</p>
+<h2 id="二、升级-packages"><a href="#二、升级-packages" class="headerlink" title="二、升级 packages"></a>二、升级 packages</h2><p>安装必要的软件包来构建<code>mcrcon</code>工具：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update </span><br><span class="line"></span><br><span class="line">sudo apt install git build-essential</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、安装Java"><a href="#三、安装Java" class="headerlink" title="三、安装Java"></a>三、安装Java</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-11-jre-headless</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、创建-Minecraft-用户"><a href="#四、创建-Minecraft-用户" class="headerlink" title="四、创建 Minecraft 用户"></a>四、创建 Minecraft 用户</h2><p>因为安全原因， Minecraft 不应该在 root 用户下运行。我们将会创建一个新的系统用户和用户组，用户主目录<code>/opt/minecraft</code>。这个用户有最小权限，来运行 Minecraft 服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -r -m -U -d /opt/minecraft -s /bin/bash minecraft</span><br></pre></td></tr></table></figure>
+<p>我们不会为这个用户设置密码。这样，这个用户将不能通过 SSH 登录。想要修改<code>minecraft</code>用户，你将需要使用 root 登录服务器，或者其他有 sudo 权限的用户</p>
+<h2 id="五、在-Ubuntu-上安装-Minecraft"><a href="#五、在-Ubuntu-上安装-Minecraft" class="headerlink" title="五、在 Ubuntu 上安装 Minecraft"></a>五、在 Ubuntu 上安装 Minecraft</h2><p>在开始安装过程之前，切换到<code>minecraft</code>用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo su - minecraft</span><br></pre></td></tr></table></figure>
+<p>运行下面的命令在用户主目录下创建三个新的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/&#123;backups,tools,server&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>backups</code>目录将会存储 服务器备份。你可以同步这个目录到你的远程备份服务器。</li>
+<li><code>tools</code> 目录将会托管<code>mcrcon</code>客户端和备份脚本。</li>
+<li><code>server</code>目录将会包含实际的 Minecraft 服务器和它的数据。</li>
+</ul>
+<h3 id="5-1-下载并且编译mcrcon"><a href="#5-1-下载并且编译mcrcon" class="headerlink" title="5.1 下载并且编译mcrcon"></a>5.1 下载并且编译<code>mcrcon</code></h3><p>RCON 是一个协议，它允许你连接到 Minecraft 服务器，并且执行命令。<a target="_blank" rel="noopener" href="https://github.com/tiiffi/mcrcon">mcron</a>是一个 RCON 客户端，使用 C 语言编写而成。</p>
+<p>我们将会从 Github 下载最新的源代码，并且构建<code>mcrcon</code>二进制文件。</p>
+<p>从 Github 克隆<code>Tiiffi/mcrcon</code>源到<code>~/tools/mcron</code>目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/Tiiffi/mcrcon.git ~/tools/mcrcon</span><br></pre></td></tr></table></figure>
+<p>一旦完成，验证<code>mcrcon</code>编译成功，打印它的版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mcrcon -v</span><br></pre></td></tr></table></figure>
+<p>输出看起来像是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mcrcon 0.7.1 (built: Jun 23 2020 15:49:44) - https://github.com/Tiiffi/mcrcon</span><br><span class="line">Bug reports:</span><br><span class="line">    tiiffi+mcrcon at gmail</span><br><span class="line">    https://github.com/Tiiffi/mcrcon/issues/</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-下载-Minecraft-服务器"><a href="#5-2-下载-Minecraft-服务器" class="headerlink" title="5.2 下载 Minecraft 服务器"></a>5.2 下载 Minecraft 服务器</h3><p>有一些 Minecraft 服务器 mods 例如 <a target="_blank" rel="noopener" href="https://getbukkit.org/download/craftbukkit">Craftbukkit</a> 或者 <a target="_blank" rel="noopener" href="https://www.spigotmc.org/">Spigot</a> ，允许你在你的服务器上添加特性（插件）以及定制，以及调整服务器设置。</p>
+<p>在这个指南中，我们将会安装最新的 Mojang 官方 vanilla 我的世界服务器。同样的指令，同样适合于其他的服务器 mods。</p>
+<p>去 <a target="_blank" rel="noopener" href="https://minecraft.net/en-us/download/server/">Minecraft 下载页面</a> 下载最新的 Minecraft 服务器 Java 压缩包（JAR）。<br>使用<code>wget</code>下载 jar 文件到<code>~/server</code>目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://launcher.mojang.com/v1/objects/a0d03225615ba897619220e256a266cb33a44b6b/server.jar -P ~/server</span><br></pre></td></tr></table></figure>
+<h3 id="5-3-配置-Minecraft-服务器"><a href="#5-3-配置-Minecraft-服务器" class="headerlink" title="5.3 配置 Minecraft 服务器"></a>5.3 配置 Minecraft 服务器</h3><p>一旦下载完成，切换到<code>~/server</code>目录，并且启动 Minecraft 服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~/server</span><br><span class="line">java -Xmx1024M -Xms1024M -jar server.jar nogui</span><br></pre></td></tr></table></figure>
+<p>第一次启动的时候，服务器执行一些操作，创建<code>server.properties</code>和<code>eula.txt</code>文件，并且停止。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[17:35:14] [main/ERROR]: Failed to load properties from file: server.properties</span><br><span class="line">[17:35:15] [main/WARN]: Failed to load eula.txt</span><br><span class="line">[17:35:15] [main/INFO]: You need to agree to the EULA in order to run the server. Go to eula.txt for more info.</span><br></pre></td></tr></table></figure>
+<p>想要运行服务器，你需要同意<code>Minecraft EULA</code>，就像上面输出所有提示的。</p>
+<p>打开<code>eula.txt</code>文件，并且修改 <code>eula=false</code> 为 <code>eula=true</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/server/eula.txt</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eula=true</span><br></pre></td></tr></table></figure>
+<p>关闭并且保存文件。<br>下一步，打开<code>server.properties</code>文件，并且启动<code>rcon</code>协议，并且设置 rcon 密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/server/server.properties</span><br></pre></td></tr></table></figure>
+<p>定位到下面的行，并且更新它们的值，就像下面显示的一样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rcon.port=25575</span><br><span class="line">rcon.password=strong-password</span><br><span class="line">enable-rcon=true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不要忘记将`strong-password`修改为一些更安全的密码。如果你不想从远程位置访问 Minecraft 服务器，确保  rcon 端口被防火墙所阻塞。</span><br></pre></td></tr></table></figure>
+<p>在这里，你可以调整服务器的默认属性。想要获取更多关于服务器设置的信息，浏览<a target="_blank" rel="noopener" href="https://minecraft.gamepedia.com/Server.properties">server.properties</a>页面。</p>
+<h2 id="六、创建-Systemd-单元文件"><a href="#六、创建-Systemd-单元文件" class="headerlink" title="六、创建 Systemd 单元文件"></a>六、创建 Systemd 单元文件</h2><p>与手动启动 Minecraft 服务器相比，我们将会创建一个 Systemd 单元文件，并且将 Minecraft 当作服务来运行。</p>
+<p>通过<code>exit</code>来切换回你的 sudo 用户。</p>
+<p>打开你的文本编辑器，并且在<code>/etc/systemd/system/</code>目录下创建一个名为<code>minecraft.service</code>的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/systemd/system/minecraft.service</span><br></pre></td></tr></table></figure>
+<p>粘贴下面的配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Minecraft Server</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=minecraft</span><br><span class="line">Nice=1</span><br><span class="line">KillMode=none</span><br><span class="line">SuccessExitStatus=0 1</span><br><span class="line">ProtectHome=true</span><br><span class="line">ProtectSystem=full</span><br><span class="line">PrivateDevices=true</span><br><span class="line">NoNewPrivileges=true</span><br><span class="line">WorkingDirectory=/opt/minecraft/server</span><br><span class="line">ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar server.jar nogui</span><br><span class="line">ExecStop=/opt/minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p strong-password stop</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>根据你的服务器资源来调整<code>Xmx</code>和<code>Xms</code>标志。<code>Xmx</code>标志定义 Java 虚拟机的最大申请内存。而<code>Xms</code>定义了初始申请内存。当前，确保你使用了正确的<code>rcon</code>端口和密码。</p>
+<p>保存文件，并且重新加载 systemd 管理配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+<p>你还可以输入下面的命令，启动 Minecraft 服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start minecraft</span><br></pre></td></tr></table></figure>
+<p>当你第一次启动服务的时候，它将会生成服务器配置文件和目录，包括 我的世界。</p>
+<p>使用下面的命令，检查服务状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status minecraft</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">● minecraft.service - Minecraft Server</span><br><span class="line">     Loaded: loaded (/etc/systemd/system/minecraft.service; disabled; vendor preset: enabled)</span><br><span class="line">     Active: active (running) since Tue 2020-06-23 17:48:44 UTC; 8s ago</span><br><span class="line">   Main PID: 1338035 (java)</span><br><span class="line">      Tasks: 15 (limit: 1074)</span><br><span class="line">     Memory: 465.3M</span><br><span class="line">     CGroup: /system.slice/minecraft.service</span><br><span class="line">             └─1338035 /usr/bin/java -Xmx1024M -Xms1024M -jar server.jar nogui</span><br></pre></td></tr></table></figure>
+<p>最后，启动 Minecraft 服务开机启动。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable minecraft</span><br></pre></td></tr></table></figure>
+
+<h2 id="七、调整防火墙"><a href="#七、调整防火墙" class="headerlink" title="七、调整防火墙"></a>七、调整防火墙</h2><p>Ubuntu 附带防火墙工具 UFW。如果在你的系统上启用了防火墙，你想从你的本地网络访问 Minecraft 服务器，你需要打开端口<code>25565</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 25565/tcp</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、配置备份"><a href="#八、配置备份" class="headerlink" title="八、配置备份"></a>八、配置备份</h2><p>在这一节，我们创建一个备份 shell 脚本和计划任务，以便自动备份 Minecraft 服务器。</p>
+<p>切换到<code>minecraft</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo su - minecraft</span><br></pre></td></tr></table></figure>
+<p>打开你的文本编辑器，并且创建下面的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /opt/minecraft/tools/backup.sh</span><br></pre></td></tr></table></figure>
+<p>粘贴下面的配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">function rcon &#123;</span><br><span class="line">  /opt/minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p strong-password &quot;$1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rcon &quot;save-off&quot;</span><br><span class="line">rcon &quot;save-all&quot;</span><br><span class="line">tar -cvpzf /opt/minecraft/backups/server-$(date +%F-%H-%M).tar.gz /opt/minecraft/server</span><br><span class="line">rcon &quot;save-on&quot;</span><br><span class="line"></span><br><span class="line">## Delete older backups</span><br><span class="line">find /opt/minecraft/backups/ -type f -mtime +7 -name &#x27;*.gz&#x27; -delete</span><br></pre></td></tr></table></figure>
+<p>保存文件，并且将脚本设置为可执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /opt/minecraft/tools/backup.sh</span><br></pre></td></tr></table></figure>
+<p>下一步，创建一个定时任务，每天自动在一个固定时间运行一次。</p>
+<p>打开你的 crontab 文件，输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>每天 23：00 运行备份脚本，粘贴下面的文本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 23 * * * /opt/minecraft/tools/backup.sh</span><br></pre></td></tr></table></figure>
+<h2 id="九、访问-Minecraft-终端"><a href="#九、访问-Minecraft-终端" class="headerlink" title="九、访问 Minecraft 终端"></a>九、访问 Minecraft 终端</h2><p>想要访问 Minecraft 终端，使用<code>mcrcon</code>工具。你需要指定主机，rcon 端口，rcon 密码并且使用<code>-t</code>（启动<code>mcrcon</code>终端模式）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/minecraft/tools/mcrcon/mcrcon -H 127.0.0.1 -P 25575 -p strong-password -t</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Logged in. Type &quot;Q&quot; to quit!</span><br><span class="line">&gt; </span><br></pre></td></tr></table></figure>
+<p>从远程位置访问 Minecraft 终端，确保 rcon 端口没有被阻塞。</p>
+<p>如果你正常连接到 Minecraft 终端，不想输入一大串命令，你可以创建一个 <a target="_blank" rel="noopener" href="https://linuxize.com/post/how-to-create-bash-aliases/">bash 关联</a>。</p>
+<h2 id="10、总结"><a href="#10、总结" class="headerlink" title="10、总结"></a>10、总结</h2><p>我们已经向你展示如何在 Ubuntu 20.04 上搭建一个 Minecraft（我的世界）服务器，并且设置每天备份。</p>
+<p>现在你可以启动你的 <a target="_blank" rel="noopener" href="https://www.minecraft.net/en-us/download/">Minecraft 客户端</a>，连接到服务器，并且开始 Minecraft 冒险。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/02/%E6%9C%8D%E5%8A%A1%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-manager" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">

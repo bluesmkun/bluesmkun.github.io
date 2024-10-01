@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://bluesmkun.github.io</id>
+    <title>ovo</title>
+    <updated>2024-10-01T11:26:10.296Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://bluesmkun.github.io"/>
+    <link rel="self" href="https://bluesmkun.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://bluesmkun.github.io/images/avatar.png</logo>
+    <icon>https://bluesmkun.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, ovo</rights>
+    <entry>
+        <title type="html"><![CDATA[Docker安装Nginx Proxy Manager]]></title>
+        <id>https://bluesmkun.github.io/post/EkkfzUwqK/</id>
+        <link href="https://bluesmkun.github.io/post/EkkfzUwqK/">
+        </link>
+        <updated>2023-09-15T16:48:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="nginx-proxy-manager是一个很简单的反向代理工具">Nginx proxy manager是一个很简单的反向代理工具。</h2>
+<p>官网：https://nginxproxymanager.com</p>
+<h3 id="门槛极低操作简单不需要你掌握很复杂的nginx配置知识只需要几步就能很轻松完成反向代理的设置和ssl证书的部署">门槛极低，操作简单，不需要你掌握很复杂的Nginx配置知识，只需要几步就能很轻松完成反向代理的设置和SSL证书的部署</h3>
+<h3 id=""></h3>
+<p>开始部署<br>
+服务器环境：Debian 10（Ubuntu 20.04也可以）或以上版本</p>
+<h3 id="升级-packages">升级 packages</h3>
+<pre><code>apt install wget curl sudo vim git -y
+</code></pre>
+<h3 id="安装-docker-环境">安装 Docker 环境</h3>
+<pre><code>wget -qO- get.docker.com | bash
+</code></pre>
+<pre><code>systemctl enable docker  # 设置开机自动启动
+</code></pre>
+<h3 id="安装-docker-compose">安装 Docker-compose</h3>
+<pre><code>sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
+</code></pre>
+<h3 id="安装-nginx-proxy-manager">安装 Nginx Proxy Manager</h3>
+<h4 id="创建安装目录">创建安装目录</h4>
+<pre><code>mkdir -p /root/data/docker_data/npm
+</code></pre>
+<pre><code>cd /root/data/docker_data/npm
+</code></pre>
+<h4 id="这边我们直接用-docker-的方式安装">这边我们直接用 docker 的方式安装。</h4>
+<pre><code>vim docker-compose.yml
+</code></pre>
+<h4 id="输入法下按-i">输入法下，按 i</h4>
+<pre><code>version: '3'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'  # 冒号左边可以改成自己服务器未被占用的端口
+      - '81:81'  # 冒号左边可以改成自己服务器未被占用的端口
+      - '443:443' # 冒号左边可以改成自己服务器未被占用的端口
+    volumes:
+      - ./data:/data # 冒号左边可以改路径，现在是表示把数据存放在在当前文件夹下的 data 文件夹中
+      - ./letsencrypt:/etc/letsencrypt  # 冒号左边可以改路径，现在是表示把数据存放在在当前文件夹下的 letsencrypt 文件夹中
+</code></pre>
+<h4 id="按一下-esc然后-wq-保存退出之后">按一下 esc，然后 :wq 保存退出，之后</h4>
+<h3 id="运行并访问-nginx-proxy-manager">运行并访问 Nginx Proxy Manager</h3>
+<pre><code>cd /root/data/docker_data/npm   # 来到 dockercompose 文件所在的文件夹下
+</code></pre>
+<pre><code>docker-compose up -d
+</code></pre>
+<h3 id="理论上我们就可以输入-httpip81-访问了">理论上我们就可以输入 http://ip:81 访问了。</h3>
+<h2 id="默认登陆名和密码">默认登陆名和密码：</h2>
+<pre><code>Email:    admin@example.com
+Password: changeme
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://bluesmkun.github.io/post/hello-gridea/</id>
+        <link href="https://bluesmkun.github.io/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="https://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
